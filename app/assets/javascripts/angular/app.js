@@ -39,11 +39,11 @@
 
 			var heightScale = d3.scale.linear()
 											.domain(d3.extent(data, function(d) { return d[yVar]; })).nice()
-											.range([20, 780]);
+											.range([300, 500]);
 
 			var widthScale = d3.scale.linear()
 											.domain(d3.extent(data, function(d) { return d[xVar]; })).nice()
-											.range([200, 600]);
+											.range([300, 500]);
 
 			var color = d3.scale.linear()
 									.domain([0,184])
@@ -56,28 +56,28 @@
 									.attr('class', 'dog-graph');
 
 			// setting up axes
-			var xAxis = svg.append('line')
-									.attr('x1', 0)
-									.attr('y1', height/2)
-									.attr('x2', width)
-									.attr('y2', height/2)
-									.attr('stroke', 'black')
-									.attr('stroke-width', 1);
+			// var xAxis = svg.append('line')
+			// 						.attr('x1', 0)
+			// 						.attr('y1', height/2)
+			// 						.attr('x2', width)
+			// 						.attr('y2', height/2)
+			// 						.attr('stroke', 'black')
+			// 						.attr('stroke-width', 1);
 
-			var yAxis = svg.append('line')
-									.attr('x1', width/2)
-									.attr('y1', 0)
-									.attr('x2', width/2)
-									.attr('y2', height)
-									.attr('stroke', 'black')
-									.attr('stroke-width', 1);
+			// var yAxis = svg.append('line')
+			// 						.attr('x1', width/2)
+			// 						.attr('y1', 0)
+			// 						.attr('x2', width/2)
+			// 						.attr('y2', height)
+			// 						.attr('stroke', 'black')
+			// 						.attr('stroke-width', 1);
 			
 			var force = d3.layout.force()
 									.nodes(data)
 									.size([width, height])
 							    .on("tick", tick)
-							    .charge(-1)
-							    .gravity(0)
+							    .charge(-14)
+							    .gravity(.012)
 							    // .chargeDistance(20);
 
 			x.domain(d3.extent(data, function(d) { return d[xVar]; })).nice();
@@ -141,51 +141,6 @@
 		    };
 		  }
 
-
-
-			// circles representing dogs
-			// canvas.selectAll('circle')
-			// 						.data(app.dogs)
-			// 						.enter()
-			// 						.append('circle')
-			// 							.attr('cx', width/2)
-			// 							.attr('cy', height/2)
-			// 							.attr('r', 5)
-			// 							.attr('fill', function(d) { return color(d.rarity); })
-			// 							.attr('class', function(d) { return "dog-" + d.id })
-			// 							.attr('class', 'dog-circle')
-			// 							.on('click', function(){
-			// 								console.log(this.classList[0]);
-			// 							})
-			// 							.on('mouseover', function(){
-			// 								d3.select(this)
-			// 									.attr('fill', 'red')
-			// 							})
-			// 							.on('mouseout', function(){
-			// 								d3.select(this)
-			// 									.attr('fill', function(d) { return color(d.rarity); })
-			// 							});
-
-			// canvas.selectAll('circle')
-			// 						.data(app.dogs)
-			// 						.transition()
-			// 						.duration(1000)
-			// 						.ease('sin')
-			// 						.attr('cx', function(d) { return widthScale(d.size); })
-			// 						.attr('cy', function(d) { return (800 - heightScale(d.energy)); });
-
-			// canvas.selectAll('text')
-			// 						.data(app.dogs)
-			// 						.enter()
-			// 						.append('text')
-			// 							.text(function(d) { return d.breed })
-			// 							.attr('x', function(d) { return widthScale(d.size) + 5;})
-			// 							.attr('y', function(d) { return (800 - heightScale(d.energy)) })
-			// 							.attr("font-family", "sans-serif")
-	  //  								.attr("font-size", "11px")
-	  //  								.attr("fill", function(d) { return color(d.rarity) });
-
-	   				
 		});
 	}]);
 })();
