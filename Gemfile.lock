@@ -88,6 +88,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    materialize-sass (0.95.3.3)
+      sass (~> 3.3)
     mechanize (2.7.3)
       domain_name (~> 0.5, >= 0.5.1)
       http-cookie (~> 1.0)
@@ -144,6 +146,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
+    responders (2.1.0)
+      railties (>= 4.2.0, < 5)
     sass (3.4.13)
     sass-rails (5.0.1)
       railties (>= 4.0.0, < 5.0)
@@ -195,10 +199,12 @@ DEPENDENCIES
   httparty
   jbuilder (~> 2.0)
   jquery-rails
+  materialize-sass
   mechanize
   pg
   pry-rails
   rails (= 4.2.0)
+  responders (~> 2.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   spring
