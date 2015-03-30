@@ -11,9 +11,9 @@
 			app.dogs = data;
 			
 			var width = 800,
-				  height = 800,
-				  padding = 10,
-				  radius = 8;
+				height = 800,
+				padding = 10,
+				radius = 8;
 
 			var x = d3.scale.linear()
 			  .range([0, width - 50]);
@@ -38,62 +38,44 @@
 		  });
 
 			var heightScale = d3.scale.linear()
-											.domain(d3.extent(data, function(d) { return d[yVar]; })).nice()
-											.range([300, 500]);
+				.domain(d3.extent(data, function(d) { return d[yVar]; })).nice()
+				.range([300, 500]);
 
 			var widthScale = d3.scale.linear()
-											.domain(d3.extent(data, function(d) { return d[xVar]; })).nice()
-											.range([300, 500]);
+				.domain(d3.extent(data, function(d) { return d[xVar]; })).nice()
+				.range([300, 500]);
 
 			var color = d3.scale.linear()
-									.domain([0,184])
-									.range(['#3772FF', '#E2EF70'])
+				.domain([0,184])
+				.range(['#3772FF', '#E2EF70'])
 
 			var svg = d3.select('.svg') 
-									.append('svg')
-									.attr('width', width)
-									.attr('height', height)
-									.attr('class', 'dog-graph');
-
-			// setting up axes
-			// var xAxis = svg.append('line')
-			// 						.attr('x1', 0)
-			// 						.attr('y1', height/2)
-			// 						.attr('x2', width)
-			// 						.attr('y2', height/2)
-			// 						.attr('stroke', 'black')
-			// 						.attr('stroke-width', 1);
-
-			// var yAxis = svg.append('line')
-			// 						.attr('x1', width/2)
-			// 						.attr('y1', 0)
-			// 						.attr('x2', width/2)
-			// 						.attr('y2', height)
-			// 						.attr('stroke', 'black')
-			// 						.attr('stroke-width', 1);
+				.append('svg')
+				.attr('width', width)
+				.attr('height', height)
+				.attr('class', 'dog-graph');
 			
 			var force = d3.layout.force()
-									.nodes(data)
-									.size([width, height])
-							    .on("tick", tick)
-							    .charge(-14)
-							    .gravity(.012)
-							    // .chargeDistance(20);
+				.nodes(data)
+				.size([width, height])
+				.on("tick", tick)
+				.charge(-14)
+				.gravity(.02)
+				// .chargeDistance(20);
 
 			x.domain(d3.extent(data, function(d) { return d[xVar]; })).nice();
  		  y.domain(d3.extent(data, function(d) { return d[yVar]; })).nice();
 
 			var node = svg.selectAll('circle')
-									.data(app.dogs)
-									.enter()
-										.append('circle')
-										.attr('r', radius)
-										.attr('cx', function(d) { return x(d[xVar]); })
-										.attr('cy', function(d) { return 800 - y(d[yVar]); })
-										.attr('fill', function(d) { return color(d.rarity); })
-										.attr('stroke-width', 1)
-										.attr('stroke', 'white')
-										.call(force.drag);
+				.data(app.dogs)
+				.enter()
+					.append('circle')
+					.attr('r', radius)
+					.attr('cx', function(d) { return x(d[xVar]); })
+					.attr('cy', function(d) { return 800 - y(d[yVar]); })
+					.attr('fill', function(d) { return color(d.rarity); })
+					.attr('stroke-width', 1)
+					.attr('stroke', 'white')
 			
 			force.start()
 			force.resume()
