@@ -4,26 +4,51 @@ html, body {
 	padding:0;
 }
 
-#billboard {
-	background: url(http://img.pandawhale.com/post-57290-most-majestic-dog-photo-meme-I-5VSE.jpeg) no-repeat center center;
-	background-size: cover;
+/* all full screen Divs */
+.fullscreen {
+	margin-top:-32px;
 	min-height: 100%;
   min-width: 1024px;
-  margin-top:-32px;
 }
 
+/* full screen Divs */
+#title-card {
+	background: url(http://img.pandawhale.com/post-57290-most-majestic-dog-photo-meme-I-5VSE.jpeg) no-repeat center center;
+	background-size: cover;
+}
+
+#lifestyle{
+	background-color: #CD853F;
+}
+
+#living-situation{
+	background-color: #FFE4B5;
+}
+
+.selection-icon {
+	background-color: #2F4F4F;
+	border: 5px solid #FAF0E6;
+	text-align: center;
+	color: #FAF0E6;
+	cursor: pointer;
+}
+
+/* d3 axis lines */
 .axis path, .axis line {
   fill: none;
   stroke: #fff;
 }
 
+/* dog nodes */
 .dog-circle {
 	cursor:pointer;
 }
 
+/* x-out on dog svg rect */
 .close-out {
 	cursor:pointer;
 }
+
 
 .dog-graph {
 	display:block;

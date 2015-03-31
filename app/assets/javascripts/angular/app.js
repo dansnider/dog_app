@@ -9,7 +9,7 @@
 		
 		$http.get('/dogs.json').success(function(data) {
 			app.dogs = data;
-			
+
 			var width = 800,
 				height = 800,
 				padding = 10,
@@ -257,6 +257,13 @@
 		      });
 		    };
 		  }
+		  $('#lifestyle-options').children().click(function(index){
+		  	lifestyle = this.id
+		  });
+
+		  $('#living-options').children().click(function(index){
+		  	dwelling = this.id
+		  });
 
 		});
 	}]);

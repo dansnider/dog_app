@@ -1,8 +1,43 @@
-<!-- <div id="billboard">
+<div id="title-card" class="fullscreen">
 	<h1 class="header"> Spirit Dog </h1>
 	<h4 class="subheader"> Let the Spirit Dog be your guide.</h4>
-	<button id="begin">Let's Begin</button>
-</div> -->
+	<a id="begin" href="#living-situation">Let's Begin</a>
+</div>
+
+<div id="living-situation" class="fullscreen">
+	<h1 class="header"> Living Situation </h1>
+	<h4 class="subheader"> I live in a...</h4>
+		<div id="living-options" class="row">
+			<div id="city" class="col s4 selection-icon">
+				<p>city</p>
+			</div>
+			<div id="suburb" class="col s4 selection-icon">
+				<p>suburb</p>
+			</div>
+			<div id="rural" class="col s4 selection-icon">
+				<p>rural</p>
+			</div>
+		</div>
+		
+	<a id="next" href="#lifestyle">Next</a>
+</div>
+
+<div id="lifestyle" class="fullscreen">
+	<h1 class="header"> Lifestyle </h1>
+	<h4 class="subheader"> What kind of lifestyle do you live?</h4>
+	<div id="lifestyle-options" class="row">
+			<div id="couch" class="col s4 selection-icon">
+				<p>couch</p>
+			</div>
+			<div id="walk" class="col s4 selection-icon">
+				<p>walk</p>
+			</div>
+			<div id="hike" class="col s4 selection-icon">
+				<p>hiking</p>
+			</div>
+		</div>
+</div>
+
 
 <button id="reset">Reset</button>
 <div ng-controller="DogController as main">
