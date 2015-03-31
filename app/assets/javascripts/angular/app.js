@@ -15,16 +15,28 @@
 				padding = 10,
 				radius = 8;
 
+			//initialize scales
 			var x = d3.scale.linear()
 			  .range([0, width - 50]);
 
 			var y = d3.scale.linear()
 			  .range([height, 10]);
 
+			var xAxis = d3.svg.axis()
+		    .scale(x)
+		    .orient("bottom")
+		    .tickSize(-height);
+
+			var yAxis = d3.svg.axis()
+		    .scale(y)
+		    .orient("left")
+		    .ticks(5)
+		    .tickSize(-width);
+
+			//add attributes to data set
 			var xVar = "size",
       		yVar = "energy";
 			
-			//add attributes to data set
 			data.forEach(function(d) {
 		    d[xVar] = +d[xVar];
 		    d[yVar] = +d[yVar];
@@ -37,35 +49,54 @@
 		    d.radius = radius;
 		  });
 
-			var heightScale = d3.scale.linear()
-				.domain(d3.extent(data, function(d) { return d[yVar]; })).nice()
-				.range([300, 500]);
+		  // set domain for scale
+			x.domain(d3.extent(data, function(d) { return d[xVar]; })).nice();
+ 		  y.domain(d3.extent(data, function(d) { return d[yVar]; })).nice();
 
-			var widthScale = d3.scale.linear()
-				.domain(d3.extent(data, function(d) { return d[xVar]; })).nice()
-				.range([300, 500]);
+ 		  console.log(d3.extent(data, function(d) { return d[xVar]; }));
+ 		  console.log(d3.extent(data, function(d) { return d[yVar]; }));
+			
 
 			var color = d3.scale.linear()
 				.domain([0,184])
 				.range(['#3772FF', '#E2EF70'])
 
+			var zoom = d3.behavior.zoom()
+				.x(x)
+				.y(y)
+				.scaleExtent([1, 10])
+				.on('zoom', zoomed);
+
+			//reset function
+			d3.select("#reset").on("click", reset);
+
+			// canvas creation
 			var svg = d3.select('.svg') 
 				.append('svg')
 				.attr('width', width)
 				.attr('height', height)
-				.attr('class', 'dog-graph');
-			
+				.attr('class', 'dog-graph')
+				.call(zoom)
+
+			svg.append("g")
+		    .attr("class", "x axis")
+		    .attr("transform", "translate(0," + height + ")")
+		    .call(xAxis);
+
+		  svg.append("g")
+		    .attr("class", "y axis")
+		    .call(yAxis);
+
+			// set force layout
 			var force = d3.layout.force()
 				.nodes(data)
 				.size([width, height])
 				.on("tick", tick)
 				.charge(-14)
-				.gravity(.02)
+				.gravity(.036)
 				// .chargeDistance(20);
 
-			x.domain(d3.extent(data, function(d) { return d[xVar]; })).nice();
- 		  y.domain(d3.extent(data, function(d) { return d[yVar]; })).nice();
-
+			// create dog nodes
 			var node = svg.selectAll('circle')
 				.data(app.dogs)
 				.enter()
@@ -78,9 +109,69 @@
 					.attr('class', 'dog-circle')
 					.attr('stroke-width', 1)
 					.attr('stroke', 'white')
+					.call(force.drag)
 					.on('click', function(d){
-							console.log(this);
+						d3.select(this)
+						d3.select('#tooltip').remove()
+						var xPosition = parseFloat(d3.select(this).attr('cx') + 10)
+						var yPosition = parseFloat(d3.select(this).attr('cy'))
+						if (d.size > 70) {
+							xPosition -= 250;
+						} 
+						if (d.energy < 40) {
+							yPosition -=325;
+						}	
+						  svg.append('rect')	
+								.attr('class', 'info-rect')
+								.attr('x', xPosition)
+	              .attr("y", yPosition)
+	              .attr("width", 250)
+	              .attr("height", 325)
+	              .attr('fill', 'white')
+	              .attr('stroke-width', 1)
+	              .attr('stroke', 'grey')
+	            svg.append('text')
+	            	.attr('class', 'div-tooltip')
+	            	.attr('x', xPosition + 10)
+	            	.attr('y', yPosition + 20)
+	            	.attr('font-family', 'sans-serif')
+								.attr('font-size', '14px')
+								.attr('font-weight', 'bold')
+								.text(d.breed);
+							svg.append('text')
+	            	.attr('class', 'div-tooltip')
+	            	.attr('x', xPosition + 10)
+	            	.attr('y', yPosition + 40)
+	            	.attr('font-family', 'sans-serif')
+								.attr('font-size', '12px')
+								.attr('font-weight', 'bold')
+								.text(d.description);
+							svg.append('svg:image')
+								.attr('class', 'dog-image')
+								.attr('x', xPosition + 1)
+								.attr('y', yPosition + 75)
+								.attr('width', 248)
+								.attr('height', 248)
+								.attr('xlink:href', d.image)
+							svg.append('text')
+								.attr('class', 'close-out')
+								.attr('x', xPosition + 233)
+								.attr('y', yPosition + 18)
+								.attr('font-family', 'sans-serif')
+								.attr('font-size', '12px')
+								.attr('font-weight', 'bold')
+								.text('x');
+
+	              var closeOuts = svg.selectAll('.close-out')
+									.on('click', function(){
+										d3.selectAll('.info-rect').remove()
+										d3.selectAll('.tooltip').remove()
+										d3.selectAll('.div-tooltip').remove()
+										d3.selectAll('.dog-image').remove()
+										d3.selectAll('.close-out').remove()
+									});
 						})
+
 					.on('mouseover', function(d){
 						d3.select(this)
 							.attr('fill', 'coral')
@@ -95,22 +186,15 @@
 							.attr('font-size', '11px')
 							.attr('font-weight', 'bold')
 							.text(d.breed);
-						// .attr('fill', 'red')
-						// .append('text')
-						// .text(this.__data__.breed)
-						// .attr('x', this.attributes.cx.textContent )
-						// .attr('y', this.attributes.cy.textContent )
-						// .attr("font-size", "11px")
-						// .attr("fill", 'black');
-					})
+						})
 					.on('mouseout', function(){
 						d3.select(this)
 							.attr('fill', function(d){ return color(this.__data__.rarity) })
-						d3.select('#tooltip').remove().transition();
+							.attr('r', 8)
+						d3.select('#tooltip').remove()
 					});
-			
+
 			force.start()
-			force.resume()
 
 			function tick(e) {
 		    node.each(moveTowardDataPosition(e.alpha));
@@ -121,6 +205,24 @@
 		        .attr("cy", function(d) { return d.y; });
 		  }
 
+		  function zoomed() {
+			  svg.select(".x.axis").call(xAxis);
+			  svg.select(".y.axis").call(yAxis);
+			  force.resume();
+			}
+
+			function reset() {
+			  d3.transition().duration(750).tween("zoom", function() {
+			    var ix = d3.interpolate(x.domain(), [5, 99]),
+			        iy = d3.interpolate(y.domain(), [7, 99]);
+			    return function(t) {
+			      zoom.x(x.domain(ix(t))).y(y.domain(iy(t)));
+			      zoomed();
+			      force.resume();
+			    };
+			  });
+			}
+    
 		  function moveTowardDataPosition(alpha) {
 		    return function(d) {
 		      d.x += (x(d[xVar]) - d.x) * 0.1 * alpha;
@@ -128,6 +230,7 @@
 		    };
 		  }
 
+		  //collision detection
 			function collide(alpha) {
 		    var quadtree = d3.geom.quadtree(app.dogs);
 		    return function(d) {

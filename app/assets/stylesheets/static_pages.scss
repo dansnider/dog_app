@@ -1,17 +1,33 @@
-#header {
-	text-align: center;
+html, body {
+	height:100%;
+	margin:0;
+	padding:0;
 }
 
-#subhead {
-	text-align: center;
+#billboard {
+	background: url(http://img.pandawhale.com/post-57290-most-majestic-dog-photo-meme-I-5VSE.jpeg) no-repeat center center;
+	background-size: cover;
+	min-height: 100%;
+  min-width: 1024px;
+  margin-top:-32px;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: #fff;
 }
 
 .dog-circle {
 	cursor:pointer;
 }
 
+.close-out {
+	cursor:pointer;
+}
+
 .dog-graph {
 	display:block;
-	border: 1px solid black;
+	border: 1px solid grey;
 	margin: 0 auto;
+	background-color: "navajowhite";
 }
