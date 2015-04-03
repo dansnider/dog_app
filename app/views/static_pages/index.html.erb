@@ -10,13 +10,13 @@
 	
 		<div class="row living-options">
 				<div id="city" class="col s4 selection-icon">
-					<p>city</p>
+					<%= image_tag('svg-icons/city.svg', size: '200x200') %>
 				</div>
 				<div id="suburb" class="col s4 selection-icon">
-					<p>suburb</p>
+					<%= image_tag('svg-icons/house.svg', size: '200x200') %>
 				</div>
 				<div id="rural" class="col s4 selection-icon">
-					<p>rural</p>
+					<%= image_tag('svg-icons/farm.svg', size: '200x200') %>
 				</div>
 			
 		</div>
@@ -28,32 +28,34 @@
 	<a href="#reset">
 		<div class="row lifestyle-options">
 			<div id="couch" class="col s4 selection-icon">
-				<p>couch</p>
+				<%= image_tag('svg-icons/couch.svg', size: '200x200') %>
 			</div>
 			<div id="walk" class="col s4 selection-icon">
-				<p>walk</p>
+				<%= image_tag('svg-icons/walk.svg', size: '200x200') %>
 			</div>
 			<div id="hike" class="col s4 selection-icon">
-				<p>hiking</p>
+				<%= image_tag('svg-icons/mountain.svg', size: '200x200') %>
 			</div>
 		</div>
 	</a>
 </div>
 
-<div class="container">
-	<div class="row">
-		<form class="col s12">
-			<div class="input-field col s12 m4 l8">
-			  <input placeholder="Try searching for a breed or a tag like 'nice'" id="search-box" type="text">
-				<button id="submit">Search</button>
-				<button id="reset">Reset</button>
-			</div>
-		</form>
+<div ng-controller="DogController as main">
+	<div class="container">
+		<div class="row">
+			<form id="search-box" class="col s12">
+				<div class="input-field col s12 m4 l8">
+				  <input placeholder="Try searching for a breed or a tag like 'nice'" type="text" id="query">
+					<input type="submit" value="search"></input>
+					<button id="reset">Reset</button>
+				</div>
+			</form>
+		</div>
 	</div>
-</div>
-<div id="dog-graph" ng-controller="DogController as main">
-	
-	<div class="svg">
-	</div>
+	<div id="dog-graph">
+		
+		<div class="svg">
+		</div>
 
+	</div>
 </div>

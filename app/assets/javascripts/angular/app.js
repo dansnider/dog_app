@@ -8,13 +8,23 @@
 		controller.dogs = [];
 		$scope.dogs = [];
 		
-		// debugger;
 		$http.get('/dogs.json').success(function(data) {
 			controller.dogs = data; 
 			$scope.dogs = data;
-			// debugger;
+			 renderD3(data)
+		});
 
-			var width = 800,
+		$filter = $filter;
+		$('#search-box').on('submit', function(e){
+			e.preventDefault()
+			query = $('#query').val()
+		});
+			
+	}]); // app.controller
+
+	function renderD3(data) {
+
+		var width = 800,
 				height = 800,
 				padding = 10,
 				radius = 10;
@@ -108,7 +118,7 @@
 
 			// create dog nodes
 			var node = svg.selectAll('circle')
-				.data(controller.dogs)
+				.data(data)
 				.enter()
 					.append('circle')
 					.attr('r', radius)
@@ -242,7 +252,7 @@
 
 		  //collision detection
 			function collide(alpha) {
-		    var quadtree = d3.geom.quadtree(controller.dogs);
+		    var quadtree = d3.geom.quadtree(data);
 		    return function(d) {
 		      var r = d.radius + radius + padding,
 		          nx1 = d.x - r,
@@ -360,10 +370,5 @@
 					.attr('r', 15);
 			}
 
-			// function resetSearchResults(){
-				// undo whatever styling
-			// }
-			
-		});
-	}]);
+		}
 })();
