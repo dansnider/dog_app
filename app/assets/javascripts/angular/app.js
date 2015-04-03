@@ -2,18 +2,22 @@
 	console.log('loaded app.js')
 	var app = angular.module('spiritDog', []);
 
-	app.controller('DogController', [ '$http', function($http){
-		var app = this;
+	app.controller('DogController', [ '$http', '$filter', '$scope', function($http, $scope, $filter){
+		var controller = this;
 
-		app.dogs = [];
+		controller.dogs = [];
+		$scope.dogs = [];
 		
+		// debugger;
 		$http.get('/dogs.json').success(function(data) {
-			app.dogs = data;
+			controller.dogs = data; 
+			$scope.dogs = data;
+			// debugger;
 
 			var width = 800,
 				height = 800,
 				padding = 10,
-				radius = 8;
+				radius = 10;
 
 			//initialize scales
 			var x = d3.scale.linear()
@@ -78,6 +82,11 @@
 				.attr('class', 'dog-graph')
 				.call(zoom)
 
+			svg.append("rect")
+		    .attr("width", "100%")
+		    .attr("height", "100%")
+		    .attr("fill", "#DCDCDD");
+
 			svg.append("g")
 		    .attr("class", "x axis")
 		    .attr("transform", "translate(0," + height + ")")
@@ -85,6 +94,7 @@
 
 		  svg.append("g")
 		    .attr("class", "y axis")
+		    .attr('stroke', '#DCDCDD')
 		    .call(yAxis);
 
 			// set force layout
@@ -98,15 +108,15 @@
 
 			// create dog nodes
 			var node = svg.selectAll('circle')
-				.data(app.dogs)
+				.data(controller.dogs)
 				.enter()
 					.append('circle')
 					.attr('r', radius)
 					.attr('cx', function(d) { return x(d[xVar]); })
 					.attr('cy', function(d) { return 800 - y(d[yVar]); })
 					.attr('fill', function(d) { return color(d.rarity); })
-					.attr('class', function(d) { return d.breed })
-					.attr('class', 'dog-circle')
+					.attr('class', function(d) {return (d.description).toLowerCase().replace(',', '').replace(',', '')  })
+					.attr('id', function(d) { return (d.breed).toLowerCase().replace(' ', '-').replace(' ', '-') })
 					.attr('stroke-width', 1)
 					.attr('stroke', 'white')
 					.call(force.drag)
@@ -115,10 +125,10 @@
 						d3.select('#tooltip').remove()
 						var xPosition = parseFloat(d3.select(this).attr('cx') + 10)
 						var yPosition = parseFloat(d3.select(this).attr('cy'))
-						if (d.size > 70) {
+						if (this.getBBox().x > (width - 250)) {  //needs an update
 							xPosition -= 250;
 						} 
-						if (d.energy < 40) {
+						if (this.getBBox().y > (height - 325)) {
 							yPosition -=325;
 						}	
 						  svg.append('rect')	
@@ -190,12 +200,12 @@
 					.on('mouseout', function(){
 						d3.select(this)
 							.attr('fill', function(d){ return color(this.__data__.rarity) })
-							.attr('r', 8)
+							.attr('r', 10)
 						d3.select('#tooltip').remove()
 					});
 
-			force.start()
-
+			force.start();
+			
 			function tick(e) {
 		    node.each(moveTowardDataPosition(e.alpha));
 
@@ -232,7 +242,7 @@
 
 		  //collision detection
 			function collide(alpha) {
-		    var quadtree = d3.geom.quadtree(app.dogs);
+		    var quadtree = d3.geom.quadtree(controller.dogs);
 		    return function(d) {
 		      var r = d.radius + radius + padding,
 		          nx1 = d.x - r,
@@ -257,14 +267,103 @@
 		      });
 		    };
 		  }
-		  $('#lifestyle-options').children().click(function(index){
-		  	lifestyle = this.id
-		  });
 
-		  $('#living-options').children().click(function(index){
-		  	dwelling = this.id
-		  });
+		  // set global variables for user selections
+		  $('.living-options').children().click(function(index){
+		  	getDwelling(this.id)
+		  	$('html, body').animate({
+			    scrollTop: $('#lifestyle').offset().top
+		    }, 500);
+	  	  return false;
+			});
 
+		  $('.lifestyle-options').children().click(function(index){
+		  	getLifestyle(this.id)
+		  	$('html, body').animate({
+			    scrollTop: $('#dog-graph').offset().top
+		    }, 500);
+	  	  return false;
+			});
+		 	
+		 	//scroll animations
+		  $('a').click(function(){
+			  $('html, body').animate({
+			    scrollTop: $( $.attr(this, 'href') ).offset().top
+		    }, 500);
+	  	  return false;
+			});
+
+			function zoomGraphX(xDom) {
+			  d3.transition().duration(750).tween("zoom", function() {
+			    var ix = d3.interpolate(x.domain(), xDom);
+			    return function(t) {
+			      zoom.x(x.domain(ix(t)));
+			      zoomed();
+			      force.resume();
+			    };
+			  });
+			}
+
+		  function zoomGraphY(yDom) {
+			  d3.transition().duration(750).tween("zoom", function() {
+			    var iy = d3.interpolate(y.domain(), yDom);
+			    return function(t) {
+			      zoom.y(y.domain(iy(t)));
+			      zoomed();
+			      force.resume();
+			    };
+			  });
+			}
+
+			//on scroll to a certain point.
+			function getDwelling(dwelling){
+				switch(dwelling){
+					case "city": 
+						xDom = [5, 48];
+						zoomGraphX(xDom);
+						break;
+					case "suburb": 
+						xDom = [40, 75];
+						zoomGraphX(xDom);
+						break;
+					case "rural": 
+						xDom = [50, 100];
+						zoomGraphX(xDom);
+						break;
+				}
+			}
+
+			function getLifestyle(lifestyle){
+				switch(lifestyle){
+					case "couch": 
+						yDom = [5, 48];
+						zoomGraphY(yDom)
+						break;
+					case "walk": 
+						yDom = [30, 60];
+						zoomGraphY(yDom);
+						break;
+					case "hike": 
+						yDom = [70, 100];
+						zoomGraphY(yDom);
+						break;
+				}
+			}
+
+			function getSearchResults(query){
+				reset()
+				d3.selectAll('.' + query)
+					.attr('fill', 'purple')
+					.attr('r', 15);
+				d3.selectAll('#' + query.replace(' ', '-').replace(' ', '-'))
+					.attr('fill', 'purple')
+					.attr('r', 15);
+			}
+
+			// function resetSearchResults(){
+				// undo whatever styling
+			// }
+			
 		});
 	}]);
 })();
