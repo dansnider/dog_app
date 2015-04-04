@@ -14,7 +14,7 @@
 			 renderD3(data)
 		});
 
-		$filter = $filter;
+		
 		$('#search-box').on('submit', function(e){
 			e.preventDefault()
 			query = $('#query').val()
