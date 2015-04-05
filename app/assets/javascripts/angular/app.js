@@ -180,9 +180,10 @@
 								.attr('class', 'energy-bar')
 								.attr('x', xPosition + 10)
 								.attr('y', yPosition + 65)
-								.attr('width', d.energy * 2.3)
-								.attr('height', 5)
-								.attr('fill', '#e89075');
+								.attr('width', 0)
+								.attr('fill', '#e89075')
+								.transition().ease("sin").duration(600).attr('width', d.energy * 2.3)
+								.attr('height', 5);
 							svg.append('text')
 	            	.attr('class', 'div-tooltip')
 	            	.attr('x', xPosition + 10)
@@ -200,12 +201,14 @@
 								.attr('fill', 'white')
 								.attr('stroke', 'grey');
 							svg.append('rect')
+								.transition()
 								.attr('class', 'size-bar')
 								.attr('x', xPosition + 10)
 								.attr('y', yPosition + 90)
-								.attr('width', d.size * 2.3)
-								.attr('height', 5)
-								.attr('fill', '#a4d1cc');
+								.attr('width', 0)
+								.attr('fill', '#a4d1cc')
+								.transition().ease("sin").duration(600).attr('width', d.size * 2.3)
+								.attr('height', 5);
 							svg.append('svg:image')
 								.attr('class', 'dog-image')
 								.attr('x', xPosition + 1)
