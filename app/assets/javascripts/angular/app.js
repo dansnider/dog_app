@@ -13,12 +13,6 @@
 			$scope.dogs = data;
 			 renderD3(data)
 		});
-
-		
-		$('#search-box').on('submit', function(e){
-			e.preventDefault()
-			query = $('#query').val()
-		});
 			
 	}]); // app.controller
 
@@ -73,7 +67,7 @@
 
 			var color = d3.scale.linear()
 				.domain([0,184])
-				.range(['#3772FF', '#E2EF70'])
+				.range(['#d2e8e5', '#2b3e95'])
 
 			var zoom = d3.behavior.zoom()
 				.x(x)
@@ -92,11 +86,6 @@
 				.attr('class', 'dog-graph')
 				.call(zoom)
 
-			svg.append("rect")
-		    .attr("width", "100%")
-		    .attr("height", "100%")
-		    .attr("fill", "#DCDCDD");
-
 			svg.append("g")
 		    .attr("class", "x axis")
 		    .attr("transform", "translate(0," + height + ")")
@@ -106,6 +95,11 @@
 		    .attr("class", "y axis")
 		    .attr('stroke', '#DCDCDD')
 		    .call(yAxis);
+
+		  svg.append("rect")
+		    .attr("width", "100%")
+		    .attr("height", "100%")
+		    .attr("fill", "#FFFFFF");
 
 			// set force layout
 			var force = d3.layout.force()
@@ -135,18 +129,18 @@
 						d3.select('#tooltip').remove()
 						var xPosition = parseFloat(d3.select(this).attr('cx') + 10)
 						var yPosition = parseFloat(d3.select(this).attr('cy'))
-						if (this.getBBox().x > (width - 250)) {  //needs an update
+						if (this.getBBox().x > (width - 250)) {  
 							xPosition -= 250;
 						} 
-						if (this.getBBox().y > (height - 325)) {
-							yPosition -=325;
+						if (this.getBBox().y > (height - 350)) {
+							yPosition -=350;
 						}	
 						  svg.append('rect')	
 								.attr('class', 'info-rect')
 								.attr('x', xPosition)
 	              .attr("y", yPosition)
 	              .attr("width", 250)
-	              .attr("height", 325)
+	              .attr("height", 350)
 	              .attr('fill', 'white')
 	              .attr('stroke-width', 1)
 	              .attr('stroke', 'grey')
@@ -154,7 +148,7 @@
 	            	.attr('class', 'div-tooltip')
 	            	.attr('x', xPosition + 10)
 	            	.attr('y', yPosition + 20)
-	            	.attr('font-family', 'sans-serif')
+	            	.attr('font-family', 'Roboto')
 								.attr('font-size', '14px')
 								.attr('font-weight', 'bold')
 								.text(d.breed);
@@ -162,17 +156,63 @@
 	            	.attr('class', 'div-tooltip')
 	            	.attr('x', xPosition + 10)
 	            	.attr('y', yPosition + 40)
-	            	.attr('font-family', 'sans-serif')
+	            	.attr('font-family', 'Roboto')
 								.attr('font-size', '12px')
 								.attr('font-weight', 'bold')
 								.text(d.description);
+							svg.append('text')
+	            	.attr('class', 'div-tooltip')
+	            	.attr('x', xPosition + 10)
+	            	.attr('y', yPosition + 60)
+	            	.attr('font-family', 'Roboto')
+								.attr('font-size', '12px')
+								.text('Energy-Level');
+							svg.append('rect')
+								.attr('class', 'total-energy')
+								.attr('x', xPosition + 10)
+								.attr('y', yPosition + 65)
+								.attr('width', 230)
+								.attr('height', 5)
+								.attr('stroke-width', 1)
+								.attr('fill', 'white')
+								.attr('stroke', 'grey');
+							svg.append('rect')
+								.attr('class', 'energy-bar')
+								.attr('x', xPosition + 10)
+								.attr('y', yPosition + 65)
+								.attr('width', d.energy * 2.3)
+								.attr('height', 5)
+								.attr('fill', '#e89075');
+							svg.append('text')
+	            	.attr('class', 'div-tooltip')
+	            	.attr('x', xPosition + 10)
+	            	.attr('y', yPosition + 85)
+	            	.attr('font-family', 'Roboto')
+								.attr('font-size', '12px')
+								.text('Size');
+							svg.append('rect')
+								.attr('class', 'total-size')
+								.attr('x', xPosition + 10)
+								.attr('y', yPosition + 90)
+								.attr('width', 230)
+								.attr('height', 5)
+								.attr('stroke-width', 1)
+								.attr('fill', 'white')
+								.attr('stroke', 'grey');
+							svg.append('rect')
+								.attr('class', 'size-bar')
+								.attr('x', xPosition + 10)
+								.attr('y', yPosition + 90)
+								.attr('width', d.size * 2.3)
+								.attr('height', 5)
+								.attr('fill', '#a4d1cc');
 							svg.append('svg:image')
 								.attr('class', 'dog-image')
 								.attr('x', xPosition + 1)
-								.attr('y', yPosition + 75)
+								.attr('y', yPosition + 100)
 								.attr('width', 248)
 								.attr('height', 248)
-								.attr('xlink:href', d.image)
+								.attr('xlink:href', d.image);
 							svg.append('text')
 								.attr('class', 'close-out')
 								.attr('x', xPosition + 233)
@@ -182,6 +222,9 @@
 								.attr('font-weight', 'bold')
 								.text('x');
 
+								d3.transition('.energy-bar')
+								d3.transition('.energy-bar')
+
 	              var closeOuts = svg.selectAll('.close-out')
 									.on('click', function(){
 										d3.selectAll('.info-rect').remove()
@@ -189,12 +232,16 @@
 										d3.selectAll('.div-tooltip').remove()
 										d3.selectAll('.dog-image').remove()
 										d3.selectAll('.close-out').remove()
+										d3.selectAll('.energy-bar').remove()
+										d3.selectAll('.size-bar').remove()
+										d3.selectAll('.total-size').remove()
+										d3.selectAll('.total-energy').remove()
 									});
 						})
 
 					.on('mouseover', function(d){
 						d3.select(this)
-							.attr('fill', 'coral')
+							.attr('fill', '#EB7260')
 						var xPosition = parseFloat(d3.select(this).attr('cx') + 10)
 						var yPosition = parseFloat(d3.select(this).attr('cy'))
 						svg.append('text')
@@ -279,7 +326,7 @@
 		  }
 
 		  // set global variables for user selections
-		  $('.living-options').children().click(function(index){
+		  $('#living-options').children().click(function(index){
 		  	getDwelling(this.id)
 		  	$('html, body').animate({
 			    scrollTop: $('#lifestyle').offset().top
@@ -287,7 +334,7 @@
 	  	  return false;
 			});
 
-		  $('.lifestyle-options').children().click(function(index){
+		  $('#lifestyle-options').children().click(function(index){
 		  	getLifestyle(this.id)
 		  	$('html, body').animate({
 			    scrollTop: $('#dog-graph').offset().top
@@ -360,15 +407,24 @@
 				}
 			}
 
+			$('#search-box').on('submit', function(e){
+				e.preventDefault()
+				query = $('#query').val()
+				getSearchResults(query)
+			});
+
 			function getSearchResults(query){
 				reset()
 				d3.selectAll('.' + query)
-					.attr('fill', 'purple')
-					.attr('r', 15);
+					.attr('fill', '#EB7260')
 				d3.selectAll('#' + query.replace(' ', '-').replace(' ', '-'))
-					.attr('fill', 'purple')
-					.attr('r', 15);
+					.attr('fill', '#EB7260')
 			}
-
+			textColors = ['0', '#EB7260', '#3A9AD9', '#E9E0D6', '29ABA4', '354458', '#b4a7ee', '#8ad084', '#d299a4' ]
+			setInterval(function(){ 
+				$('#header').css('color', textColors[Math.floor((Math.random() * 8) + 1)])
+			}, 2000);
+		
 		}
+		
 })();

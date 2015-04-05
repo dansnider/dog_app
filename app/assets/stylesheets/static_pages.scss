@@ -2,6 +2,48 @@ html, body {
 	height:100%;
 	margin:0;
 	padding:0;
+	background-color: #FFFFFF;
+}
+
+.header {
+	padding-top: 50px;
+	font-weight: 600;
+	font-size: 80px;
+	color: #354458;
+}
+
+.subheader {
+	font-weight: 300;
+	color: #354458;
+}
+
+.icon {
+	fill: red;
+}
+
+#search-form {
+	margin-left: 17%;
+}
+
+#header {
+	margin-left:700px;
+	padding-top: 200px;
+	font-family: 'Roboto', sans-serif;
+	font-weight: 700;
+	font-style: italic;
+	font-size: 120px;
+	color: #E9E0D6;
+	transition: color 2s linear;
+}
+
+#subheader {
+	font-weight: 100;
+	margin-left: 700px;
+	color: #354458;
+}
+
+#begin {
+	margin-left: 875px;
 }
 
 /* all full screen Divs */
@@ -13,24 +55,44 @@ html, body {
 
 /* full screen Divs */
 #title-card {
-	background: url(http://img.pandawhale.com/post-57290-most-majestic-dog-photo-meme-I-5VSE.jpeg) no-repeat center center;
-	background-size: cover;
+	background: url(http://i.imgur.com/TncY1p7.jpg) no-repeat center center;
+	background-size: 100% auto;
 }
 
 #lifestyle{
-	background-color: #E2C391;
+	background-color: #FFFFFF;
+	border-bottom: 20px solid #EB7260;
 }
 
 #living-situation{
-	background-color: #DCDCDD;
+	background-color: #FFFFFF;
+	border-bottom: 20px solid #3A9AD9;
 }
 
 .selection-icon {
-	background-color: #2F4F4F;
-	border: 5px solid #FAF0E6;
 	text-align: center;
 	color: #FAF0E6;
 	cursor: pointer;
+}
+
+.option-icons {
+	margin-top: 50px;
+}
+
+.energy-icon{
+	margin-left: 48%;
+	margin-top: 10px;
+	margin-bottom: -14px;
+}
+
+#small-dog{
+	margin-bottom:-35%;
+	margin-left:15.5%;
+}
+
+#large-dog{
+	margin-left:64%;
+	margin-bottom:-36%;
 }
 
 /* d3 axis lines */

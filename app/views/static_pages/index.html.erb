@@ -1,61 +1,93 @@
+
 <div id="title-card" class="fullscreen">
-	<h1 class="header"> Spirit Dog </h1>
-	<h4 class="subheader"> Let the Spirit Dog be your guide.</h4>
-	<a id="begin" href="#living-situation">Let's Begin</a>
+	<h1 id="header"> Spirit Dog </h1>
+	<h4 id="subheader"> Let the Spirit Dog be your guide.</h4>
+	<a id="begin" href="#living-situation" class="waves-effect waves-light btn blue-grey">Let's Begin</a>
 </div>
 
 <div id="living-situation" class="fullscreen">
+	<div class="container">
 	<h1 class="header"> Living Situation </h1>
 	<h4 class="subheader"> I live in a...</h4>
-	
-		<div class="row living-options">
+	</div>
+	<div class="containter">
+		<div class="row option-icons" id="living-options">
 				<div id="city" class="col s4 selection-icon">
-					<%= image_tag('svg-icons/city.svg', size: '200x200') %>
+					<%= image_tag('svg-icons/city.svg', size: '200x220', class:'icon', fill:'red') %>
 				</div>
 				<div id="suburb" class="col s4 selection-icon">
-					<%= image_tag('svg-icons/house.svg', size: '200x200') %>
+					<%= image_tag('svg-icons/house.svg', size: '200x300', class:'icon') %>
 				</div>
 				<div id="rural" class="col s4 selection-icon">
-					<%= image_tag('svg-icons/farm.svg', size: '200x200') %>
+					<%= image_tag('svg-icons/farm.svg', size: '200x300', class:'icon') %>
 				</div>
-			
+			</div>
 		</div>
 	</div>
 
 <div id="lifestyle" class="fullscreen">
+	<div class="container">
 	<h1 class="header"> Lifestyle </h1>
-	<h4 class="subheader"> What kind of lifestyle do you live?</h4>
+	<h4 class="subheader"> I'm looking for a dog to join me in...</h4>
+	</div>
 	<a href="#reset">
-		<div class="row lifestyle-options">
+
+		<div class="row option-icons" id="lifestyle-options">
 			<div id="couch" class="col s4 selection-icon">
-				<%= image_tag('svg-icons/couch.svg', size: '200x200') %>
+				<%= image_tag('svg-icons/couch.svg', size: '200x302', class:'icon') %>
 			</div>
 			<div id="walk" class="col s4 selection-icon">
-				<%= image_tag('svg-icons/walk.svg', size: '200x200') %>
+				<%= image_tag('svg-icons/walk.svg', size: '200x200', class:'icon') %>
 			</div>
 			<div id="hike" class="col s4 selection-icon">
-				<%= image_tag('svg-icons/mountain.svg', size: '200x200') %>
+				<%= image_tag('svg-icons/mountain.svg', size: '200x200', class:'icon') %>
 			</div>
+		
 		</div>
 	</a>
 </div>
+
 
 <div ng-controller="DogController as main">
 	<div class="container">
 		<div class="row">
 			<form id="search-box" class="col s12">
-				<div class="input-field col s12 m4 l8">
-				  <input placeholder="Try searching for a breed or a tag like 'nice'" type="text" id="query">
-					<input type="submit" value="search"></input>
-					<button id="reset">Reset</button>
+				<div id="search-form" class="input-field col s12 m4 l8">
+				  <input placeholder="Try searching for any breed or a tag like 'smart'" type="text" id="query"><button class="btn waves-effect waves-light blue-grey" type="submit" name="action">Submit
+    			<i class="mdi-content-send right"></i>
+  				</button>
+					<button class="btn waves-effect waves-light blue-grey" id="reset">Reset Graph</button>
 				</div>
 			</form>
 		</div>
 	</div>
+	<%= image_tag('svg-icons/energy.svg', size: '50x50', class:'energy-icon', id:'high-energy') %>
 	<div id="dog-graph">
-		
+	<%= image_tag('svg-icons/dog.svg', size: '30x30', id:'small-dog') %>	
+	<%= image_tag('svg-icons/dog.svg', size: '70x70', id:'large-dog') %>
 		<div class="svg">
 		</div>
 
 	</div>
 </div>
+		<%= image_tag('svg-icons/energy.svg', size: '20x20', class:'energy-icon') %>
+
+
+ <footer class="page-footer blue-grey">
+          <div class="container">
+            <div class="row">
+              <div class="col l6 s12">
+                <a href="https://github.com/dansnider/dog_app"><h5 class="white-text">Spirit Dog</h5></a>
+                <p class="grey-text text-lighten-4">Built with Ruby on Rails, Angular, D3JS and Materialize</p>
+              </div>
+              <div class="col l4 offset-l2 s12">
+                <h5 class="white-text">Dan Snider</h5>
+                <ul>
+                  <li><a class="grey-text text-lighten-3" href="https://github.com/dansnider">GitHub</a></li>
+                  <li><a class="grey-text text-lighten-3" href="http://www.linkedin.com/in/danrsnider/en">LinkedIn</a></li>
+                  <li><a class="grey-text text-lighten-3" href="mailto:dansnider@gmail.com?Subject=Hey%20There!">Contact</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </footer>
