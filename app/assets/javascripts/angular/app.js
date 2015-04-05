@@ -6,11 +6,9 @@
 		var controller = this;
 
 		controller.dogs = [];
-		$scope.dogs = [];
 		
 		$http.get('/dogs.json').success(function(data) {
 			controller.dogs = data; 
-			$scope.dogs = data;
 			 renderD3(data)
 		});
 			
@@ -64,7 +62,7 @@
  		  console.log(d3.extent(data, function(d) { return d[xVar]; }));
  		  console.log(d3.extent(data, function(d) { return d[yVar]; }));
 			
-
+ 		  // color range based on
 			var color = d3.scale.linear()
 				.domain([0,184])
 				.range(['#d2e8e5', '#2b3e95'])
@@ -282,6 +280,7 @@
 			}
 
 			function reset() {
+				$('#message-box').css('display', 'none')
 			  d3.transition().duration(750).tween("zoom", function() {
 			    var ix = d3.interpolate(x.domain(), [5, 99]),
 			        iy = d3.interpolate(y.domain(), [7, 99]);
@@ -340,7 +339,7 @@
 		  $('#lifestyle-options').children().click(function(index){
 		  	getLifestyle(this.id)
 		  	$('html, body').animate({
-			    scrollTop: $('#dog-graph').offset().top
+			    scrollTop: $('#search-box').offset().top
 		    }, 500);
 	  	  return false;
 			});
@@ -391,6 +390,7 @@
 						zoomGraphX(xDom);
 						break;
 				}
+				$('#message-box').css('display', 'block')
 			}
 
 			function getLifestyle(lifestyle){
@@ -408,6 +408,7 @@
 						zoomGraphY(yDom);
 						break;
 				}
+				$('#message-box').css('display', 'block')
 			}
 
 			$('#search-box').on('submit', function(e){
